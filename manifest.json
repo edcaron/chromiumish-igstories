@@ -1,37 +1,24 @@
 {
-  "name": "Chrome IG Story",
-  "description": "Chrome extension that lets you view your friend's Instagram Stories in the browser.",
-  "version": "2.0.2",
-  "manifest_version": 2,
-  "background": {
-    "scripts": [
-      "js/event.js"
-    ],
-    "persistent": true
-  },
-  "browser_action": {
-    "default_title": "Chrome IG Story",
-    "default_popup": "html/popup.html"
-  },
-  "permissions": [
-    "cookies",
-    "webRequest",
-    "webRequestBlocking",
-    "*://*.instagram.com/*"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["*://*.instagram.com/*"],
-      "js": ["js/content.js"],
-      "css" : ["css/main.css"]
-    }
-  ],
-  "web_accessible_resources": [
-    "js/*",
-    "css/*",
-    "img/*",
-    "html/*"
-  ],
-  "icons": { "16": "img/icon-16.png", "128": "img/icon-128.png" },
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js https://d24n15hnbwhuhn.cloudfront.net/libs/amplitude-3.0.1-min.gz.js; object-src 'self'"
+	"name": "igstories",
+	"version": "0.1",
+	"manifest_version": 2,
+	"background": {
+		"scripts": ["event.js"]
+	},
+	"permissions": [
+		"cookies",
+		"webRequest",
+		"webRequestBlocking",
+		"*://*.instagram.com/*"
+	],
+	"content_scripts": [{
+		"matches": ["*://*.instagram.com/*"],
+		"js": ["content.js" ],
+		"css" : ["style.css"]
+	}],
+	"web_accessible_resources": [
+		"content.js",
+		"event.js",
+		"style.css"
+	]
 }
