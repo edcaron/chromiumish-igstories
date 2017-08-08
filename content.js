@@ -2,7 +2,7 @@
 
 var API_BASE = "https://i.instagram.com/api/v1/";
 var FEED_API = API_BASE + "feed/";
-var INSTAGRAM_FEED_CLASS_NAME = "_qj7yb";
+var INSTAGRAM_FEED_CLASS_NAME = "_owark";
 
 chrome.runtime.sendMessage('wait_for_ig_cookies');
 
