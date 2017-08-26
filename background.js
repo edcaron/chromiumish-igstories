@@ -31,9 +31,12 @@ browser.runtime.onMessage.addListener(function(request, sender, dummy) {
 
 browser.webRequest.onBeforeSendHeaders.addListener(
 	function(info) {
+
+		console.log('webRequest.onBeforeSendHeaders.addListener');
+
 		var headers = info.requestHeaders;
 		var do_inject = true;
-		
+
 		headers.push({ name : "x-ig-capabilities", value : "3w==" });
 
 		for (var i = 0; i < headers.length; i++) {
@@ -69,7 +72,7 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 	},
 	{
 		urls: [
-			"*://*.instagram.com/*"
+			"https://i.instagram.com/api/v1/*"
 		],
 		types: ["xmlhttprequest"]
 	},

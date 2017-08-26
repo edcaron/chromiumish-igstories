@@ -8,22 +8,28 @@ browser.runtime.sendMessage('wait_for_ig_cookies');
 
 function get_stories(user_id) { return new Promise(function(resolve, reject) {
 	var xhr = new XMLHttpRequest();
+	var uri;
 	if (user_id) {
-		xhr.open("GET", FEED_API + "user/" + user_id + "/reel_media/", true);
+		uri = FEED_API + "user/" + user_id + "/reel_media/";
 	} else {
-		xhr.open("GET", FEED_API + "reels_tray/", true);
+		uri = FEED_API + "reels_tray/";
 	}
+
+	xhr.open("GET", uri, true);
+
 	xhr.withCredentials = true;
+
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4) {
 			if (xhr.status == 200) {
 				resolve(JSON.parse(xhr.responseText));
 			} else {
-				console.log("ERROR " + JSON.stringify(xhr.statusText));
+				console.log("ERROR " + JSON.stringify(xhr.statusText) + "response: " + xhr.response);
 			}
-		} 
+		}
 	}
-	xhr.send();
+
+	xhr.send(null);
 });}
 
 function ctime(val) {
@@ -116,20 +122,20 @@ function mk_tray(stories_json, anchor) {
 	var story_tray = document.createElement("div");
 	story_tray.setAttribute("id", "story_tray");
 	anchor.appendChild(story_tray);
-	
+
 //	console.log(JSON.stringify(stories_json));
 
 	var tray = stories_json["tray"];
 	tray.sort(function(a, b) { return b.latest_reel_media - a.latest_reel_media });
-	
+
 	for (var i = 0; i < tray.length; i++) {(function(item) {
 		var user = item['user'];
-		
+
 		var tray_icon = document.createElement('img');
 		tray_icon.setAttribute("class", ((item.items) ? "unseen_story" : "seen_story") + " tray_icon");
 		tray_icon.src = user['profile_pic_url'].replace("http://", "https://");
 		tray_icon.title = user.username;
-		
+
 		tray_icon.addEventListener("click", function() {
 			if (item.items) {
 				show_user_stories(item.items, anchor);
@@ -145,7 +151,7 @@ function mk_tray(stories_json, anchor) {
 
 		if (user.username.length > 11) {
 			tray_name.textContent = user.username.substr(0, 10) + '…';
-		} else { 
+		} else {
 			tray_name.textContent = user.username;
 		}
 
@@ -153,16 +159,16 @@ function mk_tray(stories_json, anchor) {
 		tray_time.textContent = ctime(item['latest_reel_media'])[1];
 		tray_time.className = "tray_info tray_time";
 
-		
+
 		var tray_item = document.createElement('div');
 		tray_item.className = "tray_item";
 		tray_item.appendChild(tray_icon);
 		tray_item.appendChild(tray_name);
 		tray_item.appendChild(tray_time);
 		story_tray.appendChild(tray_item);
-		
+
 	})(tray[i]);}
-	
+
 }
 
 function mk_anchor() {
