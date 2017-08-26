@@ -2,12 +2,12 @@
 var ig_cookies = {};
 var DOMAIN_URL = "https://www.instagram.com";
 
-chrome.runtime.onMessage.addListener(function(request, sender, dummy) {
+browser.runtime.onMessage.addListener(function(request, sender, dummy) {
 	if (request != "wait_for_ig_cookies") {
 		return;
 	}
 
-	chrome.cookies.getAll({ url: DOMAIN_URL }, function(cookie_list) {
+	browser.cookies.getAll({ url: DOMAIN_URL }, function(cookie_list) {
 		if (!cookie_list) {
 			return;
 		}
@@ -22,14 +22,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, dummy) {
 			}
 		}
 		if (ig_cookies.ds_user_id && ig_cookies.sessionid) {
-			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-				chrome.tabs.sendMessage(tabs[0].id, "ig_cookies_done");
+			browser.tabs.query({active: true, currentWindow: true}, function(tabs) {
+				browser.tabs.sendMessage(tabs[0].id, "ig_cookies_done");
 			});
 		}
 	});
 });
 
-chrome.webRequest.onBeforeSendHeaders.addListener(
+browser.webRequest.onBeforeSendHeaders.addListener(
 	function(info) {
 		var headers = info.requestHeaders;
 		var do_inject = true;

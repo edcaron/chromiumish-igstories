@@ -4,7 +4,7 @@ var API_BASE = "https://i.instagram.com/api/v1/";
 var FEED_API = API_BASE + "feed/";
 var INSTAGRAM_FEED_CLASS_NAME = "_owark";
 
-chrome.runtime.sendMessage('wait_for_ig_cookies');
+browser.runtime.sendMessage('wait_for_ig_cookies');
 
 function get_stories(user_id) { return new Promise(function(resolve, reject) {
 	var xhr = new XMLHttpRequest();
@@ -177,7 +177,7 @@ function mk_anchor() {
 	}
 }
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	if (request != "ig_cookies_done") {
 		return;
 	}
